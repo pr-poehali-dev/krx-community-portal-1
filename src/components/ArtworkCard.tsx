@@ -1,83 +1,104 @@
 
-import { Heart, Eye, MessageSquare } from "lucide-react";
-import { useState } from "react";
+import { useState } from 'react';
+import { Heart, Eye, MessageSquare } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface ArtworkCardProps {
-  id: number;
+  id: string;
   title: string;
-  artist: string;
-  imageUrl: string;
+  author: string;
+  authorAvatar: string;
+  image: string;
   likes: number;
   views: number;
   comments: number;
   tags: string[];
 }
 
-const ArtworkCard = ({
-  id,
-  title,
-  artist,
-  imageUrl,
-  likes,
-  views,
+const ArtworkCard = ({ 
+  id, 
+  title, 
+  author, 
+  authorAvatar, 
+  image, 
+  likes, 
+  views, 
   comments,
-  tags,
+  tags 
 }: ArtworkCardProps) => {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(likes);
 
-  const handleLike = () => {
+  const handleLike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     if (liked) {
-      setLikeCount(likeCount - 1);
+      setLikeCount(prev => prev - 1);
     } else {
-      setLikeCount(likeCount + 1);
+      setLikeCount(prev => prev + 1);
     }
     setLiked(!liked);
   };
 
   return (
-    <div className="krx-card group bg-card animate-fade-in">
-      <div className="relative overflow-hidden aspect-[4/3]">
-        <img
-          src={imageUrl}
-          alt={title}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-          <div className="w-full p-4 text-white">
-            <h3 className="text-lg font-semibold truncate">{title}</h3>
-            <p className="text-sm text-white/70">by {artist}</p>
+    <div className="bg-[hsl(var(--krx-darker-blue)/0.6)] overflow-hidden group hover:shadow-lg transition-shadow">
+      <Link to={`/artwork/${id}`} className="block">
+        <div className="relative overflow-hidden">
+          {/* Artwork Image */}
+          <img 
+            src={image} 
+            alt={title} 
+            className="w-full aspect-[3/2] object-cover object-center group-hover:scale-105 transition-transform duration-300" 
+          />
+          
+          {/* Overlay with stats on hover */}
+          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <div className="flex space-x-4 text-white">
+              <button 
+                onClick={handleLike}
+                className="flex items-center space-x-1"
+              >
+                <Heart className={`h-5 w-5 ${liked ? 'fill-red-500 text-red-500' : 'text-white'}`} />
+                <span>{likeCount}</span>
+              </button>
+              <div className="flex items-center space-x-1">
+                <Eye className="h-5 w-5" />
+                <span>{views}</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <MessageSquare className="h-5 w-5" />
+                <span>{comments}</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Tags */}
+          <div className="absolute top-2 left-2 flex flex-wrap gap-1">
+            {tags.map((tag, index) => (
+              <span 
+                key={index} 
+                className="text-xs py-0.5 px-1.5 bg-[hsl(var(--krx-blue)/0.8)] text-white"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
         </div>
-      </div>
-      <div className="krx-card-content flex justify-between items-center">
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={handleLike}
-            className="flex items-center space-x-1 text-white/70 hover:text-red-400 transition-colors"
-          >
-            <Heart
-              className={`h-4 w-4 ${liked ? "fill-red-400 text-red-400" : ""}`}
+        
+        {/* Title and Author */}
+        <div className="p-3">
+          <h3 className="font-medium text-white truncate">{title}</h3>
+          <div className="flex items-center mt-2 space-x-2">
+            <img 
+              src={authorAvatar} 
+              alt={author} 
+              className="w-6 h-6 rounded-full object-cover" 
             />
-            <span>{likeCount}</span>
-          </button>
-          <div className="flex items-center space-x-1 text-white/70">
-            <Eye className="h-4 w-4" />
-            <span>{views}</span>
-          </div>
-          <div className="flex items-center space-x-1 text-white/70">
-            <MessageSquare className="h-4 w-4" />
-            <span>{comments}</span>
+            <span className="text-sm text-gray-300">{author}</span>
           </div>
         </div>
-        <div>
-          {tags.length > 0 && (
-            <span className="text-xs px-2 py-1 bg-[hsl(var(--krx-blue)/0.2)] text-blue-300">
-              {tags[0]}
-            </span>
-          )}
-        </div>
-      </div>
+      </Link>
     </div>
   );
 };

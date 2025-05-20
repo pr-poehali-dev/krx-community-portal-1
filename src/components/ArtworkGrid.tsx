@@ -1,91 +1,89 @@
 
-import { useState, useEffect } from "react";
-import ArtworkCard from "./ArtworkCard";
+import { useState, useEffect } from 'react';
+import ArtworkCard from './ArtworkCard';
 
-// Имитация данных проектов
-const generateMockArtworks = (count: number) => {
-  const artworks = [];
-  const tags = ["3D модель", "Персонаж", "Окружение", "Концепт", "Анимация", "Игра", "Предмет"];
+// Фейковые данные для демонстрации
+const generateArtworks = (count: number) => {
+  const tags = ['Персонаж', 'Окружение', 'Концепт', 'Анимация', 'VFX', 'Игровая модель', 'Новое', 'Популярное'];
   
-  const mockImages = [
-    "https://images.unsplash.com/photo-1599010369632-ef0925904bc5?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1592155931584-901ac15763e3?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1599309329365-0a9ed380b65d?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1618172193763-c511deb635ca?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1611117775350-5249d0d39bf5?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1594904351111-a072f80b1a71?q=80&w=800&auto=format&fit=crop",
-  ];
-  
-  const artists = ["Алексей К.", "Мария В.", "Дмитрий М.", "Анна С.", "Павел Д.", "Юлия А."];
-  const titles = [
-    "Космический корабль 'Аврора'",
-    "Фэнтезийный персонаж",
-    "Научно-фантастический интерьер",
-    "Средневековый замок",
-    "Футуристический город",
-    "Мифическое существо",
-    "Стимпанк механизм",
-    "Боевой робот",
-    "Подводный мир",
-    "Постапокалиптический пейзаж"
-  ];
-
-  for (let i = 0; i < count; i++) {
-    artworks.push({
-      id: i + 1,
-      title: titles[Math.floor(Math.random() * titles.length)],
-      artist: artists[Math.floor(Math.random() * artists.length)],
-      imageUrl: mockImages[i % mockImages.length],
-      likes: Math.floor(Math.random() * 500),
-      views: Math.floor(Math.random() * 2000) + 500,
-      comments: Math.floor(Math.random() * 50),
-      tags: [tags[Math.floor(Math.random() * tags.length)]],
-    });
-  }
-
-  return artworks;
+  return Array.from({ length: count }, (_, i) => ({
+    id: `artwork-${i}`,
+    title: `3D Модель ${i + 1}`,
+    author: `Художник ${i + 1}`,
+    authorAvatar: `https://randomuser.me/api/portraits/${i % 2 ? 'men' : 'women'}/${(i % 70) + 1}.jpg`,
+    image: `https://picsum.photos/seed/${i + 1}/800/600`,
+    likes: Math.floor(Math.random() * 500),
+    views: Math.floor(Math.random() * 2000) + 500,
+    comments: Math.floor(Math.random() * 50),
+    tags: [
+      tags[Math.floor(Math.random() * tags.length)],
+      tags[Math.floor(Math.random() * tags.length)]
+    ].filter((item, i, ar) => ar.indexOf(item) === i), // Удаляем дубликаты
+  }));
 };
 
 const ArtworkGrid = () => {
-  const [artworks, setArtworks] = useState<any[]>([]);
+  const [artworks, setArtworks] = useState(generateArtworks(12));
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  
-  // Имитация загрузки первичных данных
-  useEffect(() => {
-    setArtworks(generateMockArtworks(12));
-  }, []);
+  const [hasMore, setHasMore] = useState(true);
 
-  // Имитация бесконечной прокрутки
-  const loadMore = () => {
+  // Загрузка дополнительных работ при прокрутке
+  const loadMoreArtworks = () => {
+    if (loading || !hasMore) return;
+    
     setLoading(true);
-    // Имитация задержки загрузки
+    
+    // Имитация загрузки данных с сервера
     setTimeout(() => {
-      setArtworks([...artworks, ...generateMockArtworks(6)]);
-      setPage(page + 1);
+      const newArtworks = generateArtworks(8);
+      setArtworks(prev => [...prev, ...newArtworks]);
       setLoading(false);
+      
+      // Ограничение количества добавляемых элементов для демо
+      if (artworks.length > 50) {
+        setHasMore(false);
+      }
     }, 800);
   };
 
+  // Обработчик прокрутки для бесконечной загрузки
+  useEffect(() => {
+    const handleScroll = () => {
+      // Проверяем, достигли ли мы дна страницы
+      if (
+        window.innerHeight + document.documentElement.scrollTop >= 
+        document.documentElement.offsetHeight - 500 &&
+        !loading &&
+        hasMore
+      ) {
+        loadMoreArtworks();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loading, hasMore, artworks.length]);
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="krx-grid">
+    <section className="py-12 container mx-auto px-4">
+      <h2 className="text-2xl font-bold mb-8 krx-gradient-text">Работы сообщества</h2>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {artworks.map((artwork) => (
-          <ArtworkCard key={`${artwork.id}-${artwork.title}`} {...artwork} />
+          <ArtworkCard key={artwork.id} {...artwork} />
         ))}
       </div>
       
-      {/* Кнопка "Загрузить еще" */}
-      <div className="mt-12 text-center">
-        <button
-          onClick={loadMore}
-          disabled={loading}
-          className="krx-button-primary px-8 py-2"
-        >
-          {loading ? "Загрузка..." : "Показать больше работ"}
-        </button>
-      </div>
-    </div>
+      {loading && (
+        <div className="flex justify-center mt-8">
+          <div className="w-10 h-10 border-4 border-[hsl(var(--krx-blue)/0.3)] border-t-[hsl(var(--krx-blue))] rounded-full animate-spin"></div>
+        </div>
+      )}
+      
+      {!hasMore && (
+        <p className="text-center mt-8 text-gray-400">Вы просмотрели все доступные работы</p>
+      )}
+    </section>
   );
 };
 

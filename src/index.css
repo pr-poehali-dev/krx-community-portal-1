@@ -1,5 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -38,16 +37,13 @@
 
     --radius: 0;
 
-    /* KRX Community кастомные цвета */
-    --krx-dark-bg: 200 46% 10%;
-    --krx-blue: 200 76% 26%;
-    --krx-teal: 170 74% 27%;
-    --krx-light-blue: 196 64% 41%;
-    --krx-green: 160 74% 27%;
-    --krx-darker-blue: 205 74% 16%;
-    --krx-learn: 160 74% 27%;
-    --krx-shop: 32 74% 47%;
-    --krx-jobs: 348 74% 47%;
+    /* KRX Custom Colors */
+    --krx-blue: 201 100% 30%;
+    --krx-darker-blue: 205 50% 10%;
+    --krx-teal: 174 70% 28%;
+    --krx-learn: 142 60% 35%;
+    --krx-shop: 36 80% 50%;
+    --krx-jobs: 350 65% 55%;
   }
 
   .dark {
@@ -87,67 +83,46 @@
   }
 
   body {
-    @apply bg-background text-foreground font-inter;
+    @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))];
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-rubik font-medium;
   }
 }
 
 @layer components {
   .krx-gradient-bg {
-    background: linear-gradient(135deg, hsl(200, 46%, 10%) 0%, hsl(200, 46%, 8%) 100%);
-    background-size: 100% 100%;
-    position: relative;
-  }
-
-  .krx-gradient-bg::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 15% 50%, hsl(var(--krx-blue) / 0.15), transparent 30%),
-                radial-gradient(circle at 85% 30%, hsl(var(--krx-teal) / 0.15), transparent 30%);
-    pointer-events: none;
+    @apply bg-gradient-to-br from-[hsl(var(--krx-darker-blue))] to-[hsl(var(--krx-darker-blue)/0.8)] min-h-screen;
   }
 
   .krx-gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400;
+    @apply bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent;
   }
 
   .krx-button {
-    @apply inline-flex items-center justify-center whitespace-nowrap text-sm font-medium
-    transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring 
-    focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 px-4 py-2;
+    @apply px-4 py-2 text-sm font-medium transition-colors;
   }
 
   .krx-button-primary {
-    @apply krx-button bg-gradient-to-r from-[hsl(var(--krx-blue))] to-[hsl(var(--krx-teal))] text-white 
-    hover:from-[hsl(var(--krx-blue)/0.9)] hover:to-[hsl(var(--krx-teal)/0.9)];
+    @apply bg-[hsl(var(--krx-blue))] hover:bg-[hsl(var(--krx-blue)/0.8)] text-white px-4 py-2 transition-colors;
   }
 
   .krx-button-outline {
-    @apply krx-button bg-transparent border border-[hsl(var(--krx-blue)/0.5)] text-white
-    hover:bg-[hsl(var(--krx-blue)/0.1)];
-  }
-
-  .krx-card {
-    @apply overflow-hidden transition-all duration-300 bg-card hover:shadow-lg;
-  }
-
-  .krx-card-content {
-    @apply p-4;
+    @apply border border-[hsl(var(--krx-blue)/0.6)] text-white hover:bg-[hsl(var(--krx-blue)/0.2)] px-4 py-2 transition-colors;
   }
 
   .krx-category-button {
-    @apply px-4 py-2 text-sm text-white transition-colors bg-accent hover:bg-[hsl(var(--krx-blue)/0.6)];
+    @apply text-sm px-3 py-1.5 text-gray-300 bg-[hsl(var(--krx-blue)/0.1)] hover:bg-[hsl(var(--krx-blue)/0.3)] transition-colors;
   }
 
   .krx-category-button.active {
-    @apply bg-[hsl(var(--krx-blue)/0.6)];
+    @apply bg-[hsl(var(--krx-blue)/0.6)] text-white;
   }
 }
 
@@ -158,17 +133,23 @@
 }
 
 .font-inter {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .font-rubik {
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 
 /* Анимации для карточек проектов */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
