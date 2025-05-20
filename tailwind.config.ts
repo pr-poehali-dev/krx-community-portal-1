@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -6,7 +7,7 @@ export default {
 		"./pages/**/*.{ts,tsx}",
 		"./components/**/*.{ts,tsx}",
 		"./app/**/*.{ts,tsx}",
-		"./src/**/*.{ts,tsx}",
+		"./src/**/*.{ts,tsx}"
 	],
 	prefix: "",
 	theme: {
@@ -18,6 +19,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				inter: ['Inter', 'sans-serif'],
+				rubik: ['Rubik', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,7 +66,17 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// KRX Custom colors
+				'krx-dark-bg': 'hsl(var(--krx-dark-bg))',
+				'krx-blue': 'hsl(var(--krx-blue))',
+				'krx-teal': 'hsl(var(--krx-teal))',
+				'krx-light-blue': 'hsl(var(--krx-light-blue))',
+				'krx-green': 'hsl(var(--krx-green))',
+				'krx-darker-blue': 'hsl(var(--krx-darker-blue))',
+				'krx-learn': 'hsl(var(--krx-learn))',
+				'krx-shop': 'hsl(var(--krx-shop))',
+				'krx-jobs': 'hsl(var(--krx-jobs))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -89,6 +104,9 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
+			},
+			backgroundImage: {
+				'gradient-primary': 'linear-gradient(to right, hsl(var(--krx-blue)), hsl(var(--krx-teal)))',
 			}
 		}
 	},

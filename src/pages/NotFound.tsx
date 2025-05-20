@@ -1,5 +1,8 @@
-import { useLocation } from "react-router-dom";
+
+import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const NotFound = () => {
   const location = useLocation();
@@ -12,14 +15,26 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Упс! Страница не найдена</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Вернуться на главную
-        </a>
+    <div className="krx-gradient-bg min-h-screen flex flex-col">
+      <Navbar />
+      <div className="flex-1 flex items-center justify-center pt-16 px-4">
+        <div className="text-center max-w-md">
+          <h1 className="text-6xl font-bold mb-4 krx-gradient-text">404</h1>
+          <p className="text-xl text-white/80 mb-8">
+            Ой! Эта страница находится в разработке или не существует.
+          </p>
+          <p className="text-white/60 mb-8">
+            Эта секция сайта будет доступна в следующем обновлении. Возвращайтесь скоро!
+          </p>
+          <Link 
+            to="/" 
+            className="krx-button-primary px-8 py-3"
+          >
+            Вернуться на главную
+          </Link>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };
