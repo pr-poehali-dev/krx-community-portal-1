@@ -1,34 +1,43 @@
 
-import { useState, useEffect } from "react";
-import { Sun, Moon } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { Sun, Moon } from 'lucide-react';
 
 const ThemeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
-    // При монтировании компонента определяем, какая тема применена
-    const isDark = document.documentElement.classList.contains("dark");
-    setIsDarkMode(isDark);
+    // Проверяем, сохранена ли тема в localStorage
+    const savedTheme = localStorage.getItem('theme');
+    
+    if (savedTheme === 'light') {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove('dark');
+    } else {
+      setIsDarkMode(true);
+      document.documentElement.classList.add('dark');
+    }
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = !isDarkMode;
-    setIsDarkMode(newTheme);
-    
-    if (newTheme) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+    if (isDarkMode) {
+      // Переключение на светлую тему
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+      setIsDarkMode(false);
     } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+      // Переключение на темную тему
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+      setIsDarkMode(true);
     }
   };
 
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 text-white rounded-md transition-colors hover:bg-[hsl(var(--krx-blue)/0.3)]"
       aria-label={isDarkMode ? "Переключить на светлую тему" : "Переключить на темную тему"}
+      className="p-2 text-gray-300 hover:text-white transition-colors"
+      title={isDarkMode ? "Светлая тема" : "Темная тема"}
     >
       {isDarkMode ? (
         <Sun className="h-5 w-5" />

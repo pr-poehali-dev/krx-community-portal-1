@@ -1,88 +1,156 @@
 
 import { useState, useEffect } from 'react';
 import ArtworkCard from './ArtworkCard';
+import { Button } from '@/components/ui/button';
 
-// Фейковые данные для демонстрации
-const generateArtworks = (count: number) => {
-  const tags = ['Персонаж', 'Окружение', 'Концепт', 'Анимация', 'VFX', 'Игровая модель', 'Новое', 'Популярное'];
-  
-  return Array.from({ length: count }, (_, i) => ({
-    id: `artwork-${i}`,
-    title: `3D Модель ${i + 1}`,
-    author: `Художник ${i + 1}`,
-    authorAvatar: `https://randomuser.me/api/portraits/${i % 2 ? 'men' : 'women'}/${(i % 70) + 1}.jpg`,
-    image: `https://picsum.photos/seed/${i + 1}/800/600`,
-    likes: Math.floor(Math.random() * 500),
-    views: Math.floor(Math.random() * 2000) + 500,
-    comments: Math.floor(Math.random() * 50),
-    tags: [
-      tags[Math.floor(Math.random() * tags.length)],
-      tags[Math.floor(Math.random() * tags.length)]
-    ].filter((item, i, ar) => ar.indexOf(item) === i), // Удаляем дубликаты
-  }));
-};
+// Демо-данные для 3D-работ
+const DEMO_ARTWORKS = [
+  {
+    id: '1',
+    title: 'Футуристический город',
+    author: {
+      id: 'user1',
+      name: 'Алексей Петров',
+      avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
+    },
+    thumbnail: 'https://images.unsplash.com/photo-1524234107056-1c1f48f64ab8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+    likes: 245,
+    views: 1280,
+    comments: 18,
+    tags: ['город', 'футуризм', 'архитектура'],
+  },
+  {
+    id: '2',
+    title: 'Персонаж для игры',
+    author: {
+      id: 'user2',
+      name: 'Екатерина Смирнова',
+      avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
+    },
+    thumbnail: 'https://images.unsplash.com/photo-1594670297948-59a0048cce82?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+    likes: 352,
+    views: 2150,
+    comments: 32,
+    tags: ['персонаж', 'игры', 'концепт'],
+  },
+  {
+    id: '3',
+    title: 'Средневековый замок',
+    author: {
+      id: 'user3',
+      name: 'Дмитрий Иванов',
+      avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
+    },
+    thumbnail: 'https://images.unsplash.com/photo-1533757801534-9ad3a7c03a5f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+    likes: 178,
+    views: 950,
+    comments: 14,
+    tags: ['замок', 'средневековье', 'архитектура'],
+  },
+  {
+    id: '4',
+    title: 'Научно-фантастический корабль',
+    author: {
+      id: 'user4',
+      name: 'Анна Козлова',
+      avatar: 'https://randomuser.me/api/portraits/women/2.jpg',
+    },
+    thumbnail: 'https://images.unsplash.com/photo-1581822261290-991b38693d1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+    likes: 295,
+    views: 1850,
+    comments: 28,
+    tags: ['sci-fi', 'транспорт', 'космос'],
+  },
+  {
+    id: '5',
+    title: 'Фэнтезийный персонаж',
+    author: {
+      id: 'user5',
+      name: 'Сергей Новиков',
+      avatar: 'https://randomuser.me/api/portraits/men/3.jpg',
+    },
+    thumbnail: 'https://images.unsplash.com/photo-1582845512747-e42001c95638?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+    likes: 415,
+    views: 3100,
+    comments: 47,
+    tags: ['фэнтези', 'персонаж', 'концепт'],
+  },
+  {
+    id: '6',
+    title: 'Реалистичный интерьер',
+    author: {
+      id: 'user6',
+      name: 'Ольга Соколова',
+      avatar: 'https://randomuser.me/api/portraits/women/3.jpg',
+    },
+    thumbnail: 'https://images.unsplash.com/photo-1618220179428-22790b461013?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+    likes: 267,
+    views: 1540,
+    comments: 21,
+    tags: ['интерьер', 'архитектура', 'визуализация'],
+  },
+];
 
 const ArtworkGrid = () => {
-  const [artworks, setArtworks] = useState(generateArtworks(12));
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-
-  // Загрузка дополнительных работ при прокрутке
-  const loadMoreArtworks = () => {
-    if (loading || !hasMore) return;
+  const [artworks, setArtworks] = useState(DEMO_ARTWORKS);
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  
+  // Имитация загрузки дополнительного контента
+  const loadMore = () => {
+    setIsLoading(true);
     
-    setLoading(true);
-    
-    // Имитация загрузки данных с сервера
+    // Имитируем задержку сетевого запроса
     setTimeout(() => {
-      const newArtworks = generateArtworks(8);
-      setArtworks(prev => [...prev, ...newArtworks]);
-      setLoading(false);
+      // Дублируем существующие работы с новыми ID для демонстрации
+      const newArtworks = DEMO_ARTWORKS.map(artwork => ({
+        ...artwork,
+        id: `${artwork.id}-${page}`,
+        likes: Math.floor(artwork.likes * (0.8 + Math.random() * 0.5)),
+        views: Math.floor(artwork.views * (0.8 + Math.random() * 0.5)),
+        comments: Math.floor(artwork.comments * (0.8 + Math.random() * 0.5)),
+      }));
       
-      // Ограничение количества добавляемых элементов для демо
-      if (artworks.length > 50) {
-        setHasMore(false);
-      }
+      setArtworks([...artworks, ...newArtworks]);
+      setPage(page + 1);
+      setIsLoading(false);
     }, 800);
   };
-
-  // Обработчик прокрутки для бесконечной загрузки
+  
+  // Детектор прокрутки до конца страницы для бесконечной загрузки
   useEffect(() => {
     const handleScroll = () => {
-      // Проверяем, достигли ли мы дна страницы
+      // Проверяем, находимся ли мы рядом с нижней частью страницы
       if (
-        window.innerHeight + document.documentElement.scrollTop >= 
+        window.innerHeight + document.documentElement.scrollTop >=
         document.documentElement.offsetHeight - 500 &&
-        !loading &&
-        hasMore
+        !isLoading
       ) {
-        loadMoreArtworks();
+        loadMore();
       }
     };
-
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading, hasMore, artworks.length]);
-
+  }, [artworks, isLoading]);
+  
   return (
-    <section className="py-12 container mx-auto px-4">
-      <h2 className="text-2xl font-bold mb-8 krx-gradient-text">Работы сообщества</h2>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <section className="container mx-auto px-4 py-8">
+      <div className="krx-grid">
         {artworks.map((artwork) => (
           <ArtworkCard key={artwork.id} {...artwork} />
         ))}
       </div>
       
-      {loading && (
-        <div className="flex justify-center mt-8">
-          <div className="w-10 h-10 border-4 border-[hsl(var(--krx-blue)/0.3)] border-t-[hsl(var(--krx-blue))] rounded-full animate-spin"></div>
-        </div>
-      )}
-      
-      {!hasMore && (
-        <p className="text-center mt-8 text-gray-400">Вы просмотрели все доступные работы</p>
-      )}
+      <div className="flex justify-center mt-8">
+        <Button 
+          onClick={loadMore} 
+          className="krx-button-outline"
+          disabled={isLoading}
+        >
+          {isLoading ? 'Загрузка...' : 'Показать ещё'}
+        </Button>
+      </div>
     </section>
   );
 };

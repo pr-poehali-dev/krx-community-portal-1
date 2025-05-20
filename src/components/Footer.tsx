@@ -1,91 +1,106 @@
 
-import { Link } from "react-router-dom";
-import { Github, Twitter, Instagram, Youtube, Mail } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube, Github } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-
+  
+  const footerLinks = [
+    {
+      title: 'О нас',
+      links: [
+        { name: 'О KRX Community', href: '/about' },
+        { name: 'Наша команда', href: '/team' },
+        { name: 'Партнёры', href: '/partners' },
+        { name: 'Контакты', href: '/contact' },
+      ],
+    },
+    {
+      title: 'Сообщество',
+      links: [
+        { name: 'Работы', href: '/' },
+        { name: 'Учиться', href: '/learn' },
+        { name: 'Магазин', href: '/shop' },
+        { name: 'Вакансии', href: '/jobs' },
+      ],
+    },
+    {
+      title: 'Ресурсы',
+      links: [
+        { name: 'Блог', href: '/blog' },
+        { name: 'FAQ', href: '/faq' },
+        { name: 'Помощь', href: '/help' },
+        { name: 'Условия использования', href: '/terms' },
+      ],
+    },
+  ];
+  
   return (
-    <footer className="bg-[hsl(var(--krx-darker-blue))] border-t border-[hsl(var(--krx-blue)/0.2)] pt-12 pb-6">
-      <div className="container mx-auto px-4">
-        {/* Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          {/* Column 1: About */}
+    <footer className="bg-[hsl(var(--krx-darker-blue))] border-t border-[hsl(var(--krx-blue)/0.2)]">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Логотип и описание */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-4">О проекте</h3>
-            <p className="text-gray-400 text-sm mb-4">
-              KRX Community — это платформа для 3D-моделлеров, где можно делиться работами, 
-              находить вдохновение и развиваться вместе с сообществом.
+            <Link to="/" className="inline-block mb-4">
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
+                KRX Community
+              </span>
+            </Link>
+            <p className="text-gray-400 text-sm mb-6">
+              Площадка для творчества 3D-моделистов, художников и дизайнеров.
+              Публикуйте свои работы, учитесь и находите единомышленников.
             </p>
+            
             <div className="flex space-x-4">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-                <Github className="h-5 w-5" />
+              <a href="https://facebook.com" className="text-gray-400 hover:text-white" aria-label="Facebook">
+                <Facebook size={20} />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-                <Twitter className="h-5 w-5" />
+              <a href="https://twitter.com" className="text-gray-400 hover:text-white" aria-label="Twitter">
+                <Twitter size={20} />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-                <Instagram className="h-5 w-5" />
+              <a href="https://instagram.com" className="text-gray-400 hover:text-white" aria-label="Instagram">
+                <Instagram size={20} />
               </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-                <Youtube className="h-5 w-5" />
+              <a href="https://youtube.com" className="text-gray-400 hover:text-white" aria-label="YouTube">
+                <Youtube size={20} />
+              </a>
+              <a href="https://github.com" className="text-gray-400 hover:text-white" aria-label="Github">
+                <Github size={20} />
               </a>
             </div>
           </div>
-
-          {/* Column 2: Resources */}
-          <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Ресурсы</h3>
-            <ul className="space-y-2 text-sm">
-              <li><Link to="/learn" className="text-gray-400 hover:text-white transition-colors">Учебные материалы</Link></li>
-              <li><Link to="/shop" className="text-gray-400 hover:text-white transition-colors">Магазин 3D-моделей</Link></li>
-              <li><Link to="/jobs" className="text-gray-400 hover:text-white transition-colors">Вакансии</Link></li>
-              <li><Link to="/challenges" className="text-gray-400 hover:text-white transition-colors">Конкурсы</Link></li>
-              <li><Link to="/software" className="text-gray-400 hover:text-white transition-colors">Программное обеспечение</Link></li>
-            </ul>
-          </div>
-
-          {/* Column 3: Community */}
-          <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Сообщество</h3>
-            <ul className="space-y-2 text-sm">
-              <li><Link to="/blog" className="text-gray-400 hover:text-white transition-colors">Блог</Link></li>
-              <li><Link to="/forum" className="text-gray-400 hover:text-white transition-colors">Форум</Link></li>
-              <li><Link to="/discord" className="text-gray-400 hover:text-white transition-colors">Discord</Link></li>
-              <li><Link to="/events" className="text-gray-400 hover:text-white transition-colors">Мероприятия</Link></li>
-              <li><Link to="/stories" className="text-gray-400 hover:text-white transition-colors">Истории успеха</Link></li>
-            </ul>
-          </div>
-
-          {/* Column 4: Contact */}
-          <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Контакты</h3>
-            <div className="space-y-4 text-sm">
-              <div className="flex items-center text-gray-400">
-                <Mail className="h-4 w-4 mr-2" />
-                <a href="mailto:contact@krxcommunity.ru" className="hover:text-white transition-colors">
-                  contact@krxcommunity.ru
-                </a>
-              </div>
-              <div>
-                <button className="krx-button-primary w-full">Обратная связь</button>
-              </div>
-              <div>
-                <button className="krx-button-outline w-full">Стать партнером</button>
-              </div>
+          
+          {/* Навигация по футеру */}
+          {footerLinks.map((column) => (
+            <div key={column.title}>
+              <h3 className="text-white font-medium mb-4">{column.title}</h3>
+              <ul className="space-y-2">
+                {column.links.map((link) => (
+                  <li key={link.name}>
+                    <Link to={link.href} className="text-gray-400 hover:text-white text-sm">
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
+          ))}
         </div>
-
-        {/* Bottom Bar */}
-        <div className="border-t border-[hsl(var(--krx-blue)/0.2)] pt-6 mt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-500 text-sm mb-4 md:mb-0">
-            © {currentYear} KRX Community. Все права защищены.
+        
+        <div className="border-t border-[hsl(var(--krx-blue)/0.1)] mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-gray-500 text-sm">
+            &copy; {currentYear} KRX Community. Все права защищены.
           </p>
-          <div className="flex space-x-6 text-sm">
-            <Link to="/terms" className="text-gray-500 hover:text-white transition-colors">Условия использования</Link>
-            <Link to="/privacy" className="text-gray-500 hover:text-white transition-colors">Политика конфиденциальности</Link>
-            <Link to="/cookies" className="text-gray-500 hover:text-white transition-colors">Настройки cookies</Link>
+          <div className="flex space-x-6 mt-4 md:mt-0">
+            <Link to="/privacy" className="text-gray-400 hover:text-white text-sm">
+              Политика конфиденциальности
+            </Link>
+            <Link to="/terms" className="text-gray-400 hover:text-white text-sm">
+              Условия использования
+            </Link>
+            <Link to="/cookies" className="text-gray-400 hover:text-white text-sm">
+              Политика cookies
+            </Link>
           </div>
         </div>
       </div>
