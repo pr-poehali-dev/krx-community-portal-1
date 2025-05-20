@@ -1,104 +1,86 @@
 
-import { Facebook, Twitter, Instagram, Youtube, Github } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { Github, Instagram, Twitter, Linkedin } from "lucide-react";
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-  
-  const footerLinks = [
-    {
-      title: 'О нас',
-      links: [
-        { name: 'О KRX Community', href: '/about' },
-        { name: 'Наша команда', href: '/team' },
-        { name: 'Партнёры', href: '/partners' },
-        { name: 'Контакты', href: '/contact' },
-      ],
-    },
-    {
-      title: 'Сообщество',
-      links: [
-        { name: 'Работы', href: '/' },
-        { name: 'Учиться', href: '/learn' },
-        { name: 'Магазин', href: '/shop' },
-        { name: 'Вакансии', href: '/jobs' },
-      ],
-    },
-    {
-      title: 'Ресурсы',
-      links: [
-        { name: 'Блог', href: '/blog' },
-        { name: 'FAQ', href: '/faq' },
-        { name: 'Помощь', href: '/help' },
-        { name: 'Условия использования', href: '/terms' },
-      ],
-    },
-  ];
-  
   return (
-    <footer className="bg-[hsl(var(--krx-darker-blue))] border-t border-[hsl(var(--krx-blue)/0.2)]">
+    <footer className="bg-[hsl(var(--krx-darker-blue)/0.9)] backdrop-blur-md border-t border-[hsl(var(--krx-blue)/0.2)]">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Логотип и описание */}
-          <div>
-            <Link to="/" className="inline-block mb-4">
+          <div className="flex flex-col space-y-4">
+            <Link to="/" className="flex items-center">
               <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
                 KRX Community
               </span>
             </Link>
-            <p className="text-gray-400 text-sm mb-6">
-              Площадка для творчества 3D-моделистов, художников и дизайнеров.
-              Публикуйте свои работы, учитесь и находите единомышленников.
+            <p className="text-gray-400 text-sm">
+              Платформа для 3D-моделистов, художников и дизайнеров, где каждый может делиться своими работами, находить вдохновение и развиваться вместе с сообществом.
             </p>
-            
-            <div className="flex space-x-4">
-              <a href="https://facebook.com" className="text-gray-400 hover:text-white" aria-label="Facebook">
-                <Facebook size={20} />
-              </a>
-              <a href="https://twitter.com" className="text-gray-400 hover:text-white" aria-label="Twitter">
+            <div className="flex space-x-4 mt-4">
+              <a href="https://twitter.com" className="text-gray-400 hover:text-white transition-colors" aria-label="Twitter">
                 <Twitter size={20} />
               </a>
-              <a href="https://instagram.com" className="text-gray-400 hover:text-white" aria-label="Instagram">
+              <a href="https://instagram.com" className="text-gray-400 hover:text-white transition-colors" aria-label="Instagram">
                 <Instagram size={20} />
               </a>
-              <a href="https://youtube.com" className="text-gray-400 hover:text-white" aria-label="YouTube">
-                <Youtube size={20} />
-              </a>
-              <a href="https://github.com" className="text-gray-400 hover:text-white" aria-label="Github">
+              <a href="https://github.com" className="text-gray-400 hover:text-white transition-colors" aria-label="Github">
                 <Github size={20} />
+              </a>
+              <a href="https://linkedin.com" className="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
+                <Linkedin size={20} />
               </a>
             </div>
           </div>
-          
-          {/* Навигация по футеру */}
-          {footerLinks.map((column) => (
-            <div key={column.title}>
-              <h3 className="text-white font-medium mb-4">{column.title}</h3>
-              <ul className="space-y-2">
-                {column.links.map((link) => (
-                  <li key={link.name}>
-                    <Link to={link.href} className="text-gray-400 hover:text-white text-sm">
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+
+          {/* Навигация */}
+          <div className="flex flex-col space-y-4">
+            <h3 className="text-white font-medium mb-2">Навигация</h3>
+            <Link to="/" className="text-gray-400 hover:text-white transition-colors">Работы сообщества</Link>
+            <Link to="/learn" className="text-gray-400 hover:text-white transition-colors">Учиться</Link>
+            <Link to="/shop" className="text-gray-400 hover:text-white transition-colors">Магазин</Link>
+            <Link to="/jobs" className="text-gray-400 hover:text-white transition-colors">Вакансии</Link>
+          </div>
+
+          {/* Ресурсы */}
+          <div className="flex flex-col space-y-4">
+            <h3 className="text-white font-medium mb-2">Ресурсы</h3>
+            <Link to="/blog" className="text-gray-400 hover:text-white transition-colors">Блог</Link>
+            <Link to="/tutorials" className="text-gray-400 hover:text-white transition-colors">Туториалы</Link>
+            <Link to="/challenges" className="text-gray-400 hover:text-white transition-colors">Челленджи</Link>
+            <Link to="/competitions" className="text-gray-400 hover:text-white transition-colors">Конкурсы</Link>
+          </div>
+
+          {/* Подписка */}
+          <div className="flex flex-col space-y-4">
+            <h3 className="text-white font-medium mb-2">Оставайтесь на связи</h3>
+            <p className="text-gray-400 text-sm">Подпишитесь на нашу рассылку, чтобы получать новости и обновления.</p>
+            <div className="flex">
+              <input 
+                type="email" 
+                placeholder="Ваш email" 
+                className="bg-[hsl(var(--krx-darker-blue))] border border-[hsl(var(--krx-blue)/0.3)] text-white px-4 py-2 w-full focus:outline-none focus:border-[hsl(var(--krx-blue))]" 
+              />
+              <button className="krx-button-primary px-4 py-2 whitespace-nowrap">
+                Подписаться
+              </button>
             </div>
-          ))}
+          </div>
         </div>
-        
-        <div className="border-t border-[hsl(var(--krx-blue)/0.1)] mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-500 text-sm">
-            &copy; {currentYear} KRX Community. Все права защищены.
+
+        {/* Нижний блок */}
+        <div className="mt-12 pt-6 border-t border-[hsl(var(--krx-blue)/0.2)] flex flex-col md:flex-row justify-between items-center">
+          <p className="text-gray-400 text-sm">
+            © {new Date().getFullYear()} KRX Community. Все права защищены.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link to="/privacy" className="text-gray-400 hover:text-white text-sm">
-              Политика конфиденциальности
-            </Link>
-            <Link to="/terms" className="text-gray-400 hover:text-white text-sm">
+            <Link to="/terms" className="text-gray-400 hover:text-white transition-colors text-sm">
               Условия использования
             </Link>
-            <Link to="/cookies" className="text-gray-400 hover:text-white text-sm">
+            <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors text-sm">
+              Политика конфиденциальности
+            </Link>
+            <Link to="/cookies" className="text-gray-400 hover:text-white transition-colors text-sm">
               Политика cookies
             </Link>
           </div>

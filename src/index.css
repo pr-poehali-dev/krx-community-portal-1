@@ -37,13 +37,15 @@
 
     --radius: 0;
 
-    /* KRX Custom Colors */
-    --krx-blue: 201 100% 30%;
-    --krx-darker-blue: 205 50% 10%;
-    --krx-teal: 174 70% 28%;
-    --krx-learn: 142 60% 35%;
-    --krx-shop: 36 80% 50%;
-    --krx-jobs: 350 65% 55%;
+    /* KRX Custom Styles */
+    --krx-blue: 200 70% 40%;
+    --krx-dark-blue: 210 60% 25%;
+    --krx-darker-blue: 220 60% 12%;
+
+    --krx-green: 160 60% 40%;
+    --krx-learn: 140 60% 40%;
+    --krx-shop: 35 80% 50%;
+    --krx-jobs: 350 70% 60%;
   }
 
   .dark {
@@ -74,6 +76,16 @@
     --border: 195 46% 15%;
     --input: 195 46% 15%;
     --ring: 196 74% 36%;
+
+    /* KRX Custom Styles */
+    --krx-blue: 200 60% 40%;
+    --krx-dark-blue: 210 50% 25%;
+    --krx-darker-blue: 220 50% 10%;
+
+    --krx-green: 160 50% 35%;
+    --krx-learn: 140 50% 35%;
+    --krx-shop: 35 70% 45%;
+    --krx-jobs: 350 60% 50%;
   }
 }
 
@@ -98,7 +110,18 @@
 
 @layer components {
   .krx-gradient-bg {
-    @apply bg-gradient-to-br from-[hsl(var(--krx-darker-blue))] to-[hsl(var(--krx-darker-blue)/0.8)] min-h-screen;
+    background-color: hsl(var(--krx-darker-blue));
+    background-image:
+      radial-gradient(
+        circle at 20% 30%,
+        hsla(var(--krx-blue), 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 70%,
+        hsla(var(--krx-green), 0.1) 0%,
+        transparent 50%
+      );
   }
 
   .krx-gradient-text {
@@ -106,30 +129,28 @@
   }
 
   .krx-button {
-    @apply px-4 py-2 text-sm font-medium transition-colors;
+    @apply px-3 py-2 rounded-none transition-colors;
   }
 
   .krx-button-primary {
-    @apply bg-[hsl(var(--krx-blue))] hover:bg-[hsl(var(--krx-blue)/0.8)] text-white px-4 py-2 transition-colors;
+    @apply bg-[hsl(var(--krx-blue))] hover:bg-[hsl(var(--krx-blue)/0.8)] text-white rounded-none transition-colors;
   }
 
   .krx-button-outline {
-    @apply border border-[hsl(var(--krx-blue)/0.6)] text-white hover:bg-[hsl(var(--krx-blue)/0.2)] px-4 py-2 transition-colors;
+    @apply bg-transparent border border-[hsl(var(--krx-blue)/0.6)] text-white hover:bg-[hsl(var(--krx-blue)/0.2)] rounded-none transition-colors;
   }
 
   .krx-category-button {
-    @apply text-sm px-3 py-1.5 text-gray-300 bg-[hsl(var(--krx-blue)/0.1)] hover:bg-[hsl(var(--krx-blue)/0.3)] transition-colors;
+    @apply px-4 py-2 bg-[hsl(var(--krx-darker-blue)/0.6)] text-white border border-[hsl(var(--krx-blue)/0.2)] hover:bg-[hsl(var(--krx-blue)/0.2)] transition-colors;
   }
 
   .krx-category-button.active {
-    @apply bg-[hsl(var(--krx-blue)/0.6)] text-white;
+    @apply bg-[hsl(var(--krx-blue)/0.6)] border-[hsl(var(--krx-blue))];
   }
-}
 
-.krx-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  .krx-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
 }
 
 .font-inter {
