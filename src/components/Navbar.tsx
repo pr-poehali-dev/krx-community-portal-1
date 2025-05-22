@@ -1,12 +1,19 @@
-
 import { useState } from "react";
 import { Search, Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
+import AuthModal from "./auth/AuthModal";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [authModal, setAuthModal] = useState<{
+    isOpen: boolean;
+    mode: "login" | "register";
+  }>({
+    isOpen: false,
+    mode: "login",
+  });
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -42,9 +49,11 @@ const Navbar = () => {
                     key={item.name}
                     to={item.href}
                     className={`krx-button ${
-                      item.current 
-                        ? "bg-[hsl(var(--krx-blue)/0.6)] text-white" 
-                        : "text-gray-300 hover:bg-[hsl(var(--" + (item.color || "krx-blue") + ")/0.3)] hover:text-white"
+                      item.current
+                        ? "bg-[hsl(var(--krx-blue)/0.6)] text-white"
+                        : "text-gray-300 hover:bg-[hsl(var(--" +
+                          (item.color || "krx-blue") +
+                          ")/0.3)] hover:text-white"
                     }`}
                     aria-current={item.current ? "page" : undefined}
                   >
@@ -54,7 +63,7 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Desktop Search and Auth */}
           <div className="hidden md:flex items-center space-x-4">
             <div className="relative">
@@ -81,10 +90,20 @@ const Navbar = () => {
               )}
             </div>
             <ThemeToggle />
-            <button className="krx-button-outline">Войти</button>
-            <button className="krx-button-primary">Регистрация</button>
+            <button
+              onClick={() => setAuthModal({ isOpen: true, mode: "login" })}
+              className="krx-button-outline"
+            >
+              Войти
+            </button>
+            <button
+              onClick={() => setAuthModal({ isOpen: true, mode: "register" })}
+              className="krx-button-primary"
+            >
+              Регистрация
+            </button>
           </div>
-          
+
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
             <ThemeToggle />
@@ -134,9 +153,11 @@ const Navbar = () => {
               key={item.name}
               to={item.href}
               className={`block px-3 py-2 ${
-                item.current 
-                  ? "bg-[hsl(var(--krx-blue)/0.6)] text-white" 
-                  : "text-gray-300 hover:bg-[hsl(var(--" + (item.color || "krx-blue") + ")/0.3)] hover:text-white"
+                item.current
+                  ? "bg-[hsl(var(--krx-blue)/0.6)] text-white"
+                  : "text-gray-300 hover:bg-[hsl(var(--" +
+                    (item.color || "krx-blue") +
+                    ")/0.3)] hover:text-white"
               }`}
               aria-current={item.current ? "page" : undefined}
             >
